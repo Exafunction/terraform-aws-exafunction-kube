@@ -1,6 +1,6 @@
 # Exafunction AWS Kubernetes Module
 
-<img src="images/banner.png" alt="Exafunction x AWS x K8s" width="1280"/>
+<img src="https://raw.githubusercontent.com/Exafunction/terraform-aws-exafunction-kube/main/images/banner.png" alt="Exafunction x AWS x K8s" width="1280"/>
 
 This repository provides a [Terraform](https://www.terraform.io/) module to set up the necessary [Kubernetes](https://kubernetes.io/) resources for an ExaDeploy system in an AWS [EKS cluster](https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html). This includes deploying:
 * [Kubernetes secrets](https://kubernetes.io/docs/concepts/configuration/secret/) for the ExaDeploy system. This includes the Exafunction API key and optionally [S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html) access credentials and [RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Welcome.html) credentials needed for the persistent module repository backend.
@@ -13,7 +13,7 @@ Because this module uses the [Kubernetes Terraform provider](https://registry.te
 
 ## System Diagram
 
-![System Diagram](images/system_diagram.png)
+![System Diagram](https://raw.githubusercontent.com/Exafunction/terraform-aws-exafunction-kube/main/images/system_diagram.png)
 
 This diagram shows a typical setup of ExaDeploy in EKS (and adjacent AWS resources). It consists of:
 * An [RDS database](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Welcome.html) and [S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html) used as a persistent backend for the ExaDeploy module repository. These are not strictly required as the module repository also supports a local backend (which is not persistent between module repository restarts) but is recommended in production. This Terraform module is not responsible for creating these resources but must be configured to use them by providing the appropriate access credentials and addressing information (see [Configuration - Module Repository Backend](#module-repository-backend)). To create these resources, see [Exafunction/terraform-aws-exafunction-cloud/modules/module_repo_backend](https://github.com/Exafunction/terraform-aws-exafunction-cloud/modules/module_repo_backend).
@@ -79,6 +79,16 @@ To set, see the `module_repository_backend`, `rds_*`, and `s3_*` variables. If `
 While the above sections cover all the required values for the ExaDeploy Helm chart configuration, there are many additional values that can be set to customize the deployment. These values are specified in a yaml file (in [Helm values file format](https://helm.sh/docs/chart_template_guide/values_files/)) and passed to the Helm chart installation through the optional `exadeploy_helm_values_path` variable.
 
 To see all the available values to be set, see the [ExaDeploy Helm chart](https://github.com/Exafunction/helm-charts/tree/main/charts/exadeploy). Note that Helm chart values corresponding to the required values above should not be set through this method as they will overriden (multiple Helm values specifications are automatically merged).
+
+## Additional Resources
+
+To learn more about Exafunction, visit the [Exafunction website](https://exafunction.com/).
+
+For technical support or questions, check out our [community Slack](https://join.slack.com/t/exa-community/shared_invite/zt-1fx9dgcz5-aUg_UWW7zJYc_tYfw1TyNw).
+
+For additional documentation about Exafunction including system concepts, setup guides, tutorials, API reference, and more, check out the [Exafunction documentation](https://docs.exafunction.com/).
+
+For an equivalent repository used to set up ExaDeploy in a Kubernetes cluster on [Google Cloud Platform (GCP)](https://cloud.google.com/) instead of AWS, visit [`Exafunction/terraform-gcp-exafunction-kube`](https://github.com/Exafunction/terraform-gcp-exafunction-kube).
 
 <!-- BEGIN_TF_DOCS -->
 ## Resources
