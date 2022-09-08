@@ -46,9 +46,9 @@ module "exafunction_kube" {
   # ...
 }
 ```
-See the configuration sections below as well as the [Inputs section](#inputs) and [variables.tf](variables.tf) file for a full list of configuration options.
+See the configuration sections below as well as the [Inputs section](#inputs) and [variables.tf](https://github.com/Exafunction/terraform-aws-exafunction-kube/blob/main/variables.tf) file for a full list of configuration options.
 
-See [examples/setup_exadeploy](examples/setup_exadeploy) for a working example of how to use this module.
+See [examples/setup_exadeploy](https://github.com/Exafunction/terraform-aws-exafunction-kube/tree/main/examples/setup_exadeploy) for a working example of how to use this module.
 
 ## Cluster Configuration
 While this module is not responsible for creating an [EKS cluster](https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html), it does require information about an existing cluster to deploy resources to, including the name of the cluster and [OpenID Connect (OIDC)](https://openid.net/connect/) information associated with the cluster. For clusters created using [Exafunction/terraform-aws-exafunction-cloud/modules/cluster](https://github.com/Exafunction/terraform-aws-exafunction-cloud/modules/cluster), this information can be fetched using the `cluster_name`, `cluster_oidc_issuer_url`, and `oidc_provider_arn` module outputs.
