@@ -1,0 +1,7 @@
+# Specify image tags for ExaDeploy components.
+scheduler:
+  image: 433863713167.dkr.ecr.us-east-2.amazonaws.com/exafunction/scheduler:<SCHEDULER_IMAGE_TAG>
+moduleRepository:
+  image: 433863713167.dkr.ecr.us-east-2.amazonaws.com/exafunction/module_repository:<MODULE_REPOSITORY_IMAGE_TAG>
+runner:
+  image: 433863713167.dkr.ecr.us-east-2.amazonaws.com/exafunction/runner@sha256:<RUNNER_IMAGE_SHA>
