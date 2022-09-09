@@ -24,6 +24,12 @@ resource "kubernetes_cluster_role_binding" "cluster_admin" {
   }
 }
 
+resource "random_string" "irsa_role_name_prefix" {
+  length  = 8
+  special = false
+  upper   = false
+}
+
 module "eks_cluster_autoscaler" {
   depends_on = [
     kubernetes_cluster_role_binding.cluster_admin,
@@ -36,6 +42,9 @@ module "eks_cluster_autoscaler" {
   cluster_identity_oidc_issuer_arn = var.cluster_oidc_provider_arn
   namespace                        = local.k8s_service_account_namespace
   service_account_name             = local.k8s_service_account_name
+
+  # Add a unique suffix to prevent collisions in the case of multiple instances of this module.
+  irsa_role_name_prefix = "cluster-autoscaler-irsa-${random_string.irsa_role_name_prefix.result}"
 }
 
 resource "helm_release" "nvidia_device_plugin" {
