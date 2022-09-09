@@ -33,12 +33,12 @@ module "exafunction_kube" {
   cluster_oidc_provider_arn = "arn:aws:iam::123456781234:oidc-provider/oidc.eks.us-west-1.amazonaws.com/id/ABCD1234"
 
   # Set the Exafunction API Key.
-  exafunction_api_key             = "12345678-1234-5678-1234-567812345678"
+  exafunction_api_key = "12345678-1234-5678-1234-567812345678"
 
   # Set the ExaDeploy component images.
-  scheduler_image = "123456781234.dkr.ecr.us-west-1.amazonaws.com/exafunction/scheduler:prod_abcd1234_1234567812"
+  scheduler_image         = "123456781234.dkr.ecr.us-west-1.amazonaws.com/exafunction/scheduler:prod_abcd1234_1234567812"
   module_repository_image = "123456781234.dkr.ecr.us-west-1.amazonaws.com/exafunction/module_repository:prod_abcd1234_1234567812"
-  runner_image = "123456781234.dkr.ecr.us-west-1.amazonaws.com/exafunction/runner@sha256:abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789"
+  runner_image            = "123456781234.dkr.ecr.us-west-1.amazonaws.com/exafunction/runner@sha256:abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789"
 
   # Set the module repository backend.
   module_repository_backend = "local"
@@ -102,6 +102,7 @@ For an equivalent repository used to set up ExaDeploy in a Kubernetes cluster on
 | [kubernetes_secret.exafunction_api_key](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
 | [kubernetes_secret.rds_password](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
 | [kubernetes_secret.s3_access](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
+| [random_string.irsa_role_name_prefix](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) | resource |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 
 ## Inputs
