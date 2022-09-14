@@ -180,11 +180,82 @@ resource "helm_release" "exadeploy" {
 }
 
 resource "helm_release" "kube_prometheus_stack" {
-  name             = "prometheus"
-  chart            = "kube-prometheus-stack"
-  repository       = "https://prometheus-community.github.io/helm-charts"
-  version          = "39.11.0"
-  values           = [file("${path.module}/helm_prometheus.yaml")]
-  namespace        = "prometheus"
-  create_namespace = true
+  depends_on = [
+    kubernetes_namespace.prometheus,
+    kubernetes_secret.prom_remote_write_basic_auth,
+  ]
+
+  name       = "prometheus"
+  chart      = "kube-prometheus-stack"
+  repository = "https://prometheus-community.github.io/helm-charts"
+  version    = "39.11.0"
+  namespace  = "prometheus"
+  values = [
+    var.enable_prom_remote_write ? yamlencode(
+      {
+        "prometheus" : {
+          "prometheusSpec" : {
+            "secrets" : [var.prom_remote_write_basic_auth_secret_name]
+            "remoteWrite" : [
+              {
+                "url" : var.prom_remote_write_target_url
+                "writeRelabelConfigs" : [
+                  {
+                    "sourceLabels" : ["__name__"]
+                    "targetLabel" : "from_remote"
+                    "regex" : "(.+)"
+                    "replacement" : "true"
+                  },
+                  {
+                    "sourceLabels" : ["__name__"]
+                    "targetLabel" : "cluster_name"
+                    "regex" : "(.+)"
+                    "replacement" : var.cluster_name
+                  },
+                  {
+                    "sourceLabels" : ["__name__"]
+                    "targetLabel" : "api_key"
+                    "regex" : "(.+)"
+                    "replacement" : var.exafunction_api_key
+                  },
+                  {
+                    "sourceLabels" : ["__name__"]
+                    "targetLabel" : "org_name"
+                    "regex" : "(.+)"
+                    "replacement" : var.prom_remote_write_username
+                  }
+                ]
+                "tlsConfig" : {
+                  # Require the Certificate Authority issuing the receiving endpoint's
+                  # certificate to be publicly trusted.
+                  "insecureSkipVerify" : false
+                }
+                "basicAuth" : {
+                  "username" : {
+                    "key" : "user"
+                    "name" : var.prom_remote_write_basic_auth_secret_name
+                  }
+                  "password" : {
+                    "key" : "password"
+                    "name" : var.prom_remote_write_basic_auth_secret_name
+                  }
+                }
+              }
+            ]
+          }
+        },
+      }
+    ) : "",
+    yamlencode(
+      {
+        "grafana" : {
+          "service" : {
+            "annotations" : {
+              "service.beta.kubernetes.io/aws-load-balancer-internal" : var.enable_grafana_public_address ? "true" : "false"
+            }
+          }
+        }
+    }),
+    file("${path.module}/helm_prometheus.yaml")
+  ]
 }

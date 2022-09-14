@@ -82,7 +82,6 @@ grafana:
     type: LoadBalancer
     port: 80
     targetPort: 3000
-    annotations: {}
     labels: {}
     portName: service
   sidecar:
