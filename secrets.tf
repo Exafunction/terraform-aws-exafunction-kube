@@ -27,3 +27,25 @@ resource "kubernetes_secret" "s3_access" {
     secret_key = var.s3_iam_user_secret_key
   }
 }
+
+resource "kubernetes_namespace" "prometheus" {
+  metadata {
+    name = "prometheus"
+  }
+}
+
+resource "kubernetes_secret" "prom_remote_write_basic_auth" {
+  depends_on = [
+    kubernetes_namespace.prometheus,
+  ]
+
+  count = var.enable_prom_remote_write ? 1 : 0
+  metadata {
+    name      = var.prom_remote_write_basic_auth_secret_name
+    namespace = "prometheus"
+  }
+  data = {
+    user     = var.prom_remote_write_username
+    password = var.prom_remote_write_password
+  }
+}

@@ -37,3 +37,14 @@ variable "remote_state_config" {
   description = "The configuration of the remote backend."
   type        = map(string)
 }
+
+variable "prom_remote_write_username" {
+  description = "User (e.g. company name) for Prometheus remote write. Will be used as a Prometheus label and basic auth username. This will be stored in the Prometheus remote write basic auth Kubernetes secret."
+  type        = string
+}
+
+variable "prom_remote_write_password" {
+  description = "Prometheus remote write basic auth password. This will be stored in the Prometheus remote write basic auth Kubernetes secret."
+  type        = string
+  sensitive   = true
+}

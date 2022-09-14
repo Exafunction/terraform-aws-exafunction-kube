@@ -26,4 +26,9 @@ module "exafunction_kube" {
   rds_port                  = data.terraform_remote_state.cloud.outputs.exafunction_module_repo_backend.rds_port
   rds_username              = data.terraform_remote_state.cloud.outputs.exafunction_module_repo_backend.rds_username
   rds_password              = data.terraform_remote_state.cloud.outputs.exafunction_module_repo_backend.rds_password
+
+  enable_grafana_public_address = true
+  enable_prom_remote_write      = true
+  prom_remote_write_username    = var.prom_remote_write_username
+  prom_remote_write_password    = var.prom_remote_write_password
 }
