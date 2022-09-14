@@ -24,8 +24,9 @@ This diagram shows a typical setup of ExaDeploy in EKS (and adjacent AWS resourc
 ## Usage
 ```hcl
 module "exafunction_kube" {
-  # Set the module source to use this module.
+  # Set the module source and version to use this module.
   source = "Exafunction/exafunction-kube/aws"
+  version = "x.y.z"
 
   # Set the cluster variables.
   cluster_name              = "cluster-abcd1234"
