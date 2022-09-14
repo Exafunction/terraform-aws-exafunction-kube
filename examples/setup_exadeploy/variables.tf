@@ -1,5 +1,6 @@
 variable "region" {
-  type = string
+  description = "Region to bring up Exafunction infrastructure in."
+  type        = string
 }
 
 variable "cluster_name" {
