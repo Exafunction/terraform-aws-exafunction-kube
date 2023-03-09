@@ -251,7 +251,8 @@ resource "helm_release" "kube_prometheus_stack" {
         "grafana" : {
           "service" : {
             "annotations" : {
-              "service.beta.kubernetes.io/aws-load-balancer-internal" : var.enable_grafana_public_address ? "true" : "false"
+              "service.beta.kubernetes.io/aws-load-balancer-scheme" : var.enable_grafana_public_address ? "internet-facing" : "internal"
+              "service.beta.kubernetes.io/aws-load-balancer-internal" : var.enable_grafana_public_address ? "false" : "true"
             }
           }
         }

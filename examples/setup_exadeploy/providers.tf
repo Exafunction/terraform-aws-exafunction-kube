@@ -2,8 +2,6 @@ provider "aws" {
   region = var.region
 }
 
-data "aws_availability_zones" "available" {}
-
 data "aws_eks_cluster" "cluster" {
   name = var.cluster_name
 }
